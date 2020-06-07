@@ -24,7 +24,7 @@ public class Lavoratore implements Insertable {
     callableStatement.setString(6, email);
     boolean result = callableStatement.execute();
     if (result) {
-      throw new SQLException();
+      throw new SQLException("a result was provided by the query when it was not supposed to");
     }
   }
 

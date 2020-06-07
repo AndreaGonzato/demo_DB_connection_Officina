@@ -24,7 +24,7 @@ public class Stipendio implements Insertable {
     callableStatement.setString(4, lavoratore);
     boolean result = callableStatement.execute();
     if (result) {
-      throw new SQLException();
+      throw new SQLException("a result was provided by the query when it was not supposed to");
     }
   }
 

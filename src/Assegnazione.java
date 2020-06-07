@@ -17,7 +17,7 @@ public class Assegnazione implements Insertable {
     callableStatement.setInt(2, lavoro);
     boolean result = callableStatement.execute();
     if (result) {
-      throw new SQLException();
+      throw new SQLException("a result was provided by the query when it was not supposed to");
     }
   }
 

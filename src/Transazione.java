@@ -21,7 +21,7 @@ public class Transazione implements Insertable {
     callableStatement.setInt(3, intervento);
     boolean result = callableStatement.execute();
     if (result) {
-      throw new SQLException();
+      throw new SQLException("a result was provided by the query when it was not supposed to");
     }
   }
 }
