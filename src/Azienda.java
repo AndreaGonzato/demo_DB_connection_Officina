@@ -11,6 +11,9 @@ public class Azienda extends Cliente implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
+    if (SQLInjectionParser.detectSQLInjection(nome, telefono, email, partitaIva)) {
+      throw new SQLException("detected a possible SQL Injection");
+    }
     try (
             CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiAzienda(?, ?, ?, ?)}")
     ) {

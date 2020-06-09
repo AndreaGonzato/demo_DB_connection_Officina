@@ -12,6 +12,9 @@ public class Assegnazione implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
+    if (SQLInjectionParser.detectSQLInjection(codiceFiscale)) {
+      throw new SQLException("detected a possible SQL Injection");
+    }
     try (
             CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiAssegnazione(?, ?)}")
     ) {

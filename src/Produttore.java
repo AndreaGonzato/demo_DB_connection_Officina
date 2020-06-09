@@ -10,6 +10,9 @@ public class Produttore implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
+    if (SQLInjectionParser.detectSQLInjection(marca, nazionalità)) {
+      throw new SQLException("detected a possible SQL Injection");
+    }
     try (
             CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiProduttore(?, ?)}")
     ) {

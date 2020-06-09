@@ -15,6 +15,9 @@ public class Lavoratore implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
+    if (SQLInjectionParser.detectSQLInjection(codiceFiscale, nome, cognome, ruolo, telefono, email)) {
+      throw new SQLException("detected a possible SQL Injection");
+    }
     try (
             CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiLavoratore(?, ?, ?, ?, ?, ?)}")
     ) {

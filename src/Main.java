@@ -14,14 +14,13 @@ public class Main {
     ) {
 
       // example of use
-      Insertable insertable = new Privato("Luigi", "Tarelli", "3414773069", "gino@gmail.com");
-      //insertable.insert(conn); // uncomment this line to insert
+      Insertable insertable = new Privato("Luigi", "Marconi", "3414773069", "luigimarconi@gmail.com");
+      //insertable.insert(conn); // uncomment this line to insert into the D.B.
 
     } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
     }
   }
-
 
   private static Connection getConnection(String user, String password, String databaseName, int portNumber) throws ClassNotFoundException, SQLException {
     // Allocate a database 'Connection' object
