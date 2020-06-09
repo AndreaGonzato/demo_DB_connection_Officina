@@ -14,12 +14,15 @@ public class Revisione implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
-    CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiRevisione(?, ?)}");
-    callableStatement.setDate(1, data);
-    callableStatement.setString(2, targa);
-    boolean result = callableStatement.execute();
-    if (result) {
-      throw new SQLException("a result was provided by the query when it was not supposed to");
+    try (
+            CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiRevisione(?, ?)}")
+    ) {
+      callableStatement.setDate(1, data);
+      callableStatement.setString(2, targa);
+      boolean result = callableStatement.execute();
+      if (result) {
+        throw new SQLException("a result was provided by the query when it was not supposed to");
+      }
     }
   }
 

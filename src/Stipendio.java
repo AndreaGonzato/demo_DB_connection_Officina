@@ -17,14 +17,17 @@ public class Stipendio implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
-    CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiStipendio(?, ?, ?, ?)}");
-    callableStatement.setDate(1, data);
-    callableStatement.setFloat(2, importo);
-    callableStatement.setInt(3, oreLavorative);
-    callableStatement.setString(4, lavoratore);
-    boolean result = callableStatement.execute();
-    if (result) {
-      throw new SQLException("a result was provided by the query when it was not supposed to");
+    try (
+            CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiStipendio(?, ?, ?, ?)}")
+    ) {
+      callableStatement.setDate(1, data);
+      callableStatement.setFloat(2, importo);
+      callableStatement.setInt(3, oreLavorative);
+      callableStatement.setString(4, lavoratore);
+      boolean result = callableStatement.execute();
+      if (result) {
+        throw new SQLException("a result was provided by the query when it was not supposed to");
+      }
     }
   }
 

@@ -12,14 +12,17 @@ public class Privato extends Cliente implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
-    CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiPrivato(?, ?, ?, ?)}");
-    callableStatement.setString(1, nome);
-    callableStatement.setString(2, cognome);
-    callableStatement.setString(3, telefono);
-    callableStatement.setString(4, email);
-    boolean result = callableStatement.execute();
-    if (result) {
-      throw new SQLException("a result was provided by the query when it was not supposed to");
+    try (
+            CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiPrivato(?, ?, ?, ?)}")
+    ) {
+      callableStatement.setString(1, nome);
+      callableStatement.setString(2, cognome);
+      callableStatement.setString(3, telefono);
+      callableStatement.setString(4, email);
+      boolean result = callableStatement.execute();
+      if (result) {
+        throw new SQLException("a result was provided by the query when it was not supposed to");
+      }
     }
   }
 

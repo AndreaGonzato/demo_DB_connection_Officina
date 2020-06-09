@@ -15,16 +15,19 @@ public class Lavoratore implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
-    CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiLavoratore(?, ?, ?, ?, ?, ?)}");
-    callableStatement.setString(1, codiceFiscale);
-    callableStatement.setString(2, nome);
-    callableStatement.setString(3, cognome);
-    callableStatement.setString(4, ruolo);
-    callableStatement.setString(5, telefono);
-    callableStatement.setString(6, email);
-    boolean result = callableStatement.execute();
-    if (result) {
-      throw new SQLException("a result was provided by the query when it was not supposed to");
+    try (
+            CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiLavoratore(?, ?, ?, ?, ?, ?)}")
+    ) {
+      callableStatement.setString(1, codiceFiscale);
+      callableStatement.setString(2, nome);
+      callableStatement.setString(3, cognome);
+      callableStatement.setString(4, ruolo);
+      callableStatement.setString(5, telefono);
+      callableStatement.setString(6, email);
+      boolean result = callableStatement.execute();
+      if (result) {
+        throw new SQLException("a result was provided by the query when it was not supposed to");
+      }
     }
   }
 

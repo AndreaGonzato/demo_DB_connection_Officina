@@ -10,12 +10,15 @@ public class Produttore implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
-    CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiProduttore(?, ?)}");
-    callableStatement.setString(1, marca);
-    callableStatement.setString(2, nazionalità);
-    boolean result = callableStatement.execute();
-    if (result) {
-      throw new SQLException("a result was provided by the query when it was not supposed to");
+    try (
+            CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiProduttore(?, ?)}")
+    ) {
+      callableStatement.setString(1, marca);
+      callableStatement.setString(2, nazionalità);
+      boolean result = callableStatement.execute();
+      if (result) {
+        throw new SQLException("a result was provided by the query when it was not supposed to");
+      }
     }
   }
 }

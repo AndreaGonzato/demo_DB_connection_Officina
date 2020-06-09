@@ -13,13 +13,16 @@ public class Veicolo implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
-    CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiVeicolo(?, ?, ?)}");
-    callableStatement.setString(1, targa);
-    callableStatement.setInt(2, cliente);
-    callableStatement.setInt(3, modello);
-    boolean result = callableStatement.execute();
-    if (result) {
-      throw new SQLException("a result was provided by the query when it was not supposed to");
+    try (
+            CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiVeicolo(?, ?, ?)}")
+    ) {
+      callableStatement.setString(1, targa);
+      callableStatement.setInt(2, cliente);
+      callableStatement.setInt(3, modello);
+      boolean result = callableStatement.execute();
+      if (result) {
+        throw new SQLException("a result was provided by the query when it was not supposed to");
+      }
     }
   }
 

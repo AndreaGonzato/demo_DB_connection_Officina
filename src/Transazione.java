@@ -15,13 +15,16 @@ public class Transazione implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
-    CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiTransazione(?, ?, ?)}");
-    callableStatement.setTimestamp(1, data);
-    callableStatement.setFloat(2, importo);
-    callableStatement.setInt(3, intervento);
-    boolean result = callableStatement.execute();
-    if (result) {
-      throw new SQLException("a result was provided by the query when it was not supposed to");
+    try (
+            CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiTransazione(?, ?, ?)}")
+    ) {
+      callableStatement.setTimestamp(1, data);
+      callableStatement.setFloat(2, importo);
+      callableStatement.setInt(3, intervento);
+      boolean result = callableStatement.execute();
+      if (result) {
+        throw new SQLException("a result was provided by the query when it was not supposed to");
+      }
     }
   }
 }

@@ -8,16 +8,16 @@ public class Main {
   static final String DATABASENAME = "officina"; // put your D.B name here
   static final int PORTNUMBER = 3306; // put your port number D.B connection here
 
-  public static void main(String[] args) throws Exception {
-    try {
-      Connection conn = getConnection(USER, PASSWORD, DATABASENAME, PORTNUMBER);
+  public static void main(String[] args) {
+    try (
+            Connection conn = getConnection(USER, PASSWORD, DATABASENAME, PORTNUMBER)
+    ) {
 
       // example of use
-      Insertable insertable = new Privato("Gino", "Tarelli", "3414773069", "gino@gmail.com");
+      Insertable insertable = new Privato("Luigi", "Tarelli", "3414773069", "gino@gmail.com");
       //insertable.insert(conn); // uncomment this line to insert
 
-
-    } catch (Exception e) {
+    } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
     }
   }

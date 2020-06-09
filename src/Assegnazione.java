@@ -12,12 +12,15 @@ public class Assegnazione implements Insertable {
   }
 
   public void insert(Connection conn) throws SQLException {
-    CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiAssegnazione(?, ?)}");
-    callableStatement.setString(1, codiceFiscale);
-    callableStatement.setInt(2, lavoro);
-    boolean result = callableStatement.execute();
-    if (result) {
-      throw new SQLException("a result was provided by the query when it was not supposed to");
+    try (
+            CallableStatement callableStatement = conn.prepareCall("{call sp_aggiungiAssegnazione(?, ?)}")
+    ) {
+      callableStatement.setString(1, codiceFiscale);
+      callableStatement.setInt(2, lavoro);
+      boolean result = callableStatement.execute();
+      if (result) {
+        throw new SQLException("a result was provided by the query when it was not supposed to");
+      }
     }
   }
 
